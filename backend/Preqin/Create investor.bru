@@ -1,0 +1,15 @@
+meta {
+  name: Create investor
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://127.0.0.1:8000/investor
+  body: json
+  auth: none
+}
+
+body:json {
+  {"name": "ahmad faiyaz", "investor_type": "hedge fund", "country": "Bangladesh"}
+}

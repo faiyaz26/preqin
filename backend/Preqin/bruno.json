@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Preqin_Requests",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
