@@ -88,6 +88,37 @@ def test_create_and_get_investor(session: Session):
     assert response.status_code == 200
     assert response.json() == json_dict
 
+    commitment_data = {
+        "investor_id": 1,
+        "asset_class": "real-estate",
+        "amount": 5000,
+        "currency": "GBP",
+    }
+
+    response = client.post(
+        "/investment-commitment",
+        json=commitment_data,
+    )
+
+    expected_response = {
+        "id": 1,
+        "amount": 5000.0,
+        "investor_id": 1,
+        "asset_class": "real-estate",
+        "currency": "GBP",
+    }
+
+    assert response.status_code == 200
+    assert response.json() == expected_response
+
+    response = client.get(
+        "/investor/1",
+    )
+    json_dict["commitments"].append(expected_response)
+
+    assert response.status_code == 200
+    assert response.json() == json_dict
+
     # Should be 404
     response = client.get(
         "/investor/2",
@@ -105,7 +136,7 @@ def test_create_and_get_investor(session: Session):
                 "name": "ahmad faiyaz",
                 "investor_type": "hedge fund",
                 "country": "Bangladesh",
-                "total_commitments": 0.0,
+                "total_commitments": 5000.0,
             }
         ]
     }

@@ -1,13 +1,15 @@
-from models import Investor
+from models import Investor, InvestmentCommitment
 from fastapi import FastAPI, Depends, UploadFile, File
 from handlers.investors import (
     GetInvestorListResponse,
     InvestorCreateRequest,
     InvestorGetOrCreateResponse,
     InvestorWithCommitments,
+    InvestmentCommitmentCreateRequest,
     find_investor,
     get_investor_list,
     create_investor,
+    create_investment_commitment,
 )
 from handlers.upload_csv_data import CSVUploadResponse, upload_csv_handler
 from sqlmodel import Field, Session, SQLModel, create_engine, select
@@ -73,3 +75,10 @@ async def post_investor(
 @app.get("/investor/{investor_id}")
 async def get_investor(investor_id, session: SessionDep) -> InvestorWithCommitments:
     return find_investor(investor_id, session)
+
+
+@app.post("/investment-commitment")
+async def add_investment(
+    commitment_data: InvestmentCommitmentCreateRequest, session: SessionDep
+) -> InvestmentCommitment:
+    return create_investment_commitment(commitment_data, session)
