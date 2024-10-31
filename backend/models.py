@@ -86,22 +86,9 @@ class InvestmentCommitment(SQLModel, table=True):
         # Add investor_id to kwargs
         kwargs["investor_id"] = investor.id
 
-        # Create query based on provided kwargs
-        query = select(cls)
-        for key, value in kwargs.items():
-            if hasattr(cls, key):
-                query = query.where(getattr(cls, key) == value)
-
-        # Try to get existing investment commitment
-        investment = session.exec(query).first()
-
-        if investment is None:
-            # Create new investment commitment if it doesn't exist
-            investment = cls(**kwargs)
-            investment.investor = investor
-            session.add(investment)
-            session.commit()
-            session.refresh(investment)
-            return investment, True
-
-        return investment, False
+        investment = cls(**kwargs)
+        investment.investor = investor
+        session.add(investment)
+        session.commit()
+        session.refresh(investment)
+        return investment, True

@@ -104,10 +104,4 @@ def create_investment_commitment(
         currency=commitment.currency,
     )
 
-    if not created:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Commitment with '{commitment.asset_class}'-'{commitment.amount}' already exists",
-        )
-
     return investor_commitment
